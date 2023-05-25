@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderHandlerMicroservice", "OrderHandlerMicroservice\OrderHandlerMicroservice.csproj", "{9104407A-269A-4B22-AD8D-45919DED58E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizationMicroservice", "AuthorizationMicroservice\AuthorizationMicroservice.csproj", "{555275C1-4114-4B1D-A93E-0840D7D88897}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9104407A-269A-4B22-AD8D-45919DED58E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9104407A-269A-4B22-AD8D-45919DED58E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9104407A-269A-4B22-AD8D-45919DED58E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9104407A-269A-4B22-AD8D-45919DED58E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{555275C1-4114-4B1D-A93E-0840D7D88897}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{555275C1-4114-4B1D-A93E-0840D7D88897}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{555275C1-4114-4B1D-A93E-0840D7D88897}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{555275C1-4114-4B1D-A93E-0840D7D88897}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
