@@ -1,6 +1,8 @@
-﻿namespace OrderHandlerMicroservice.Repositories.Interfaces;
+﻿using System.Transactions;
 
-public class IBaseRepository
+namespace OrderHandlerMicroservice.Repositories.Interfaces;
+
+public interface IBaseRepository
 {
-    
+    public TransactionScope CreateTransactionScope(IsolationLevel level = IsolationLevel.ReadCommitted);
 }

@@ -1,6 +1,6 @@
 ﻿namespace OrderHandlerMicroservice.Repositories;
 
-public class OrderRepository
+public class OrderRepository : BaseRepository
 {
     public void Add()
     {
