@@ -1,10 +1,16 @@
-﻿namespace OrderHandlerMicroservice.Repositories;
+﻿using Dapper;
+
+namespace OrderHandlerMicroservice.Repositories;
 
 public class OrderRepository : BaseRepository
 {
-    public void Add()
+    public async void Add()
     {
-        throw new NotImplementedException();
+        const string sqlQuery = @"
+insert into order_dish (1, 1, 1, 1, 1.0)";
+
+        await using var connection = await GetAndOpenConnection();
+        await connection.QueryAsync(new CommandDefinition(sqlQuery));
     }
 
     public void Get()

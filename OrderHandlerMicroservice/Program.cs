@@ -1,6 +1,7 @@
 using OrderHandlerMicroservice.Repositories;
 using OrderHandlerMicroservice.Repositories.Extensions;
 using OrderHandlerMicroservice.Repositories.Interfaces;
+using OrderHandlerMicroservice.Services;
 using Shed.CoreKit.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<OrderHandlerService>();
 
 builder.Services.AddInfrastructure();
 builder.Services.AddRepositories();

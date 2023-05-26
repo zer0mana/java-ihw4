@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OrderHandlerMicroservice.Requests;
 using OrderHandlerMicroservice.Responses;
+using OrderHandlerMicroservice.Services;
 
 namespace OrderHandlerMicroservice.Controllers;
 
@@ -8,9 +9,10 @@ namespace OrderHandlerMicroservice.Controllers;
 [Route("order-handler")]
 public class OrderHandlerController : ControllerBase
 {
-
-    public OrderHandlerController()
+    private readonly OrderHandlerService _orderHandlerService;
+    public OrderHandlerController(OrderHandlerService orderHandlerService)
     {
+        _orderHandlerService = orderHandlerService;
     }
 
     [HttpPost("create-order")]
