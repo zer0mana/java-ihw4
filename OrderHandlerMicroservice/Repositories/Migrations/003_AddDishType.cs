@@ -10,11 +10,11 @@ public class AddDishType : Migration {
 DO $$
     BEGIN
         IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'dish_v1') THEN
-            CREATE TYPE order_v1 as
+            CREATE TYPE dish_v1 as
             (
                   id           int
                 , name         varchar
-                , decription   text
+                , description   text
                 , price        numeric(19, 5)
                 , quantity     int
             );
