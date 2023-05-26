@@ -10,7 +10,7 @@ public class AddDihsType : Migration {
 DO $$
     BEGIN
         IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'order_v1') THEN
-            CREATE TYPE calculations_v1 as
+            CREATE TYPE order_v1 as
             (
                   id               int
                 , user_id          int

@@ -18,7 +18,7 @@ public class OrderHandlerController : ControllerBase
     [HttpPost("create-order")]
     public async Task<CreateOrderResponse> CreateOrder(CreateOrderRequest request)
     {
-        await _orderHandlerService.AddNewDish();
+        await _orderHandlerService.AddNewOrders();
         return new CreateOrderResponse();
     }
     

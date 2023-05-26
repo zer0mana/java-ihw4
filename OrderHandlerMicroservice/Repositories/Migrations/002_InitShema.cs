@@ -19,7 +19,7 @@ public class InitShema : Migration {
             .WithColumn("status").AsString().NotNullable()
             .WithColumn("special_requests").AsString().NotNullable()
             .WithColumn("created_at").AsDateTimeOffset().NotNullable()
-            .WithColumn("upfated_at").AsDateTimeOffset().NotNullable();
+            .WithColumn("updated_at").AsDateTimeOffset().NotNullable();
 
         Create.Table("order_dish")
             .WithColumn("id").AsInt32().PrimaryKey("order_dish_pk").Identity()

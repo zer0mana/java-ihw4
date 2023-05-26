@@ -5,7 +5,7 @@ namespace OrderHandlerMicroservice.Repositories;
 
 public class DishRepository : BaseRepository
 {
-    public async Task<int> Add(
+    public async Task<int[]> Add(
         DishEntityV1[] entityV1,
         CancellationToken token)
     {
@@ -22,13 +22,13 @@ returning id;
         };
         
         await using var connection = await GetAndOpenConnection();
-        var result = await connection.QueryAsync<long>(
+        var result = await connection.QueryAsync<int>(
             new CommandDefinition(
                 sqlQuery,
                 sqlQueryParams,
                 cancellationToken: token));
         
-        return 1;
+        return result.ToArray();
     }
 
     public void Get()
