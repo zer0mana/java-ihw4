@@ -1,19 +1,18 @@
 using OrderHandlerMicroservice.Repositories;
+using OrderHandlerMicroservice.Repositories.Extensions;
 using OrderHandlerMicroservice.Repositories.Interfaces;
 using Shed.CoreKit.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// builder.Services.AddScoped<IBaseRepository, BaseRepository>();
-//builder.Services.AddScoped<IDishRepository, DishRepository>();
-//builder
+builder.Services.AddInfrastructure();
+builder.Services.AddRepositories();
+
 // builder.Services.AddWebApiEndpoints(new WebApiEndpoint<IProductCatalog>(new System.Uri("http://localhost:5001")));
 
 var app = builder.Build();
