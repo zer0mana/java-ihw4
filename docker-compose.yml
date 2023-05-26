@@ -1,0 +1,22 @@
+version: "3"
+services:
+    order-handler-microservice:
+        image: postgres
+        restart: always
+        container_name: order-handler-microservice-local
+        environment:
+            POSTGRES_USER: "postgres"
+            POSTGRES_DB: "order-handler"
+            POSTGRES_PASSWORD: "123456"
+        ports:
+            - 15432:5432
+    authorization-microservice:
+          image: postgres
+          restart: always
+          container_name: authorization-microservice-local
+          environment:
+              POSTGRES_USER: "postgres"
+              POSTGRES_DB: "authorization"
+              POSTGRES_PASSWORD: "123456"
+          ports:
+              - 15432:5432
