@@ -9,16 +9,15 @@ public class AddDihsType : Migration {
         const string sql = @"
 DO $$
     BEGIN
-        IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'calculations_v1') THEN
+        IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'order_v1') THEN
             CREATE TYPE calculations_v1 as
             (
-                  id           bigint
-                , user_id      bigint
-                , good_ids     bigint[]
-                , total_volume double precision
-                , total_weight double precision
-                , price        numeric(19, 5)
-                , at           timestamp with time zone
+                  id               int
+                , user_id          int
+                , status           varchar
+                , special_requests text
+                , created_at       timestamp with time zone
+                , updated_at       timestamp with time zone
             );
         END IF;
     END
@@ -32,7 +31,7 @@ $$;";
         const string sql = @"
 DO $$
     BEGIN
-        DROP TYPE IF EXISTS calculations_v1;
+        DROP TYPE IF EXISTS order_v1;
     END
 $$;";
 

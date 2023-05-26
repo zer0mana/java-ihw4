@@ -16,9 +16,10 @@ public class OrderHandlerController : ControllerBase
     }
 
     [HttpPost("create-order")]
-    public CreateOrderResponse CreateOrder(CreateOrderRequest request)
+    public async Task<CreateOrderResponse> CreateOrder(CreateOrderRequest request)
     {
-        throw new NotImplementedException();
+        await _orderHandlerService.AddNewDish();
+        return new CreateOrderResponse();
     }
     
     [HttpPost("get-order-status")]

@@ -1,10 +1,34 @@
-﻿namespace OrderHandlerMicroservice.Repositories;
+﻿using Dapper;
+using OrderHandlerMicroservice.Repositories.Entities;
 
-public class DishRepository
+namespace OrderHandlerMicroservice.Repositories;
+
+public class DishRepository : BaseRepository
 {
-    public void Add()
+    public async Task<int> Add(
+        DishEntityV1[] entityV1,
+        CancellationToken token)
     {
-        throw new NotImplementedException();
+        const string sqlQuery = @"
+insert into dish (name, description, price, quantity)
+select name, description, price, quantity
+  from UNNEST(@Dishes)
+returning id;
+";
+        
+        var sqlQueryParams = new
+        {
+            Dishes = entityV1
+        };
+        
+        await using var connection = await GetAndOpenConnection();
+        var result = await connection.QueryAsync<long>(
+            new CommandDefinition(
+                sqlQuery,
+                sqlQueryParams,
+                cancellationToken: token));
+        
+        return 1;
     }
 
     public void Get()

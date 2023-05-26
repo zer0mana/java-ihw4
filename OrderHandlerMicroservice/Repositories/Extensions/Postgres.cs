@@ -2,6 +2,7 @@
 using FluentMigrator.Runner;
 using Npgsql;
 using Npgsql.NameTranslation;
+using OrderHandlerMicroservice.Repositories.Entities;
 
 namespace OrderHandlerMicroservice.Repositories.Extensions;
 
@@ -13,8 +14,10 @@ public static class Postgres
     {
         var mapper = NpgsqlConnection.GlobalTypeMapper;
         Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
-        
-        // mapper.MapComposite<>()
+
+        mapper.MapComposite<DishEntityV1>("dish_v1", Translator);
+        mapper.MapComposite<OrderEntityV1>("order_v1", Translator);
+        mapper.MapComposite<OrderDishEntityV1>("order_dish_v1", Translator);
     }
 
     public static void AddMigrations(IServiceCollection services)

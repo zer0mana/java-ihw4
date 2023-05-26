@@ -1,10 +1,21 @@
-﻿namespace OrderHandlerMicroservice.Repositories.Migrations;
+﻿using Dapper;
+using OrderHandlerMicroservice.Repositories.Entities;
+
+namespace OrderHandlerMicroservice.Repositories.Migrations;
 
 public class OrderDishRepository : BaseRepository
 {
-    public void Add()
+    public async void Add()
     {
-        throw new NotImplementedException();
+        const string sqlQuery = @"
+insert into order_dish (order_id, dish_id, quantity, price) values(1, 1, 1, 1);
+";
+
+        await using var connection = await GetAndOpenConnection();
+        await connection.QueryAsync(
+            new CommandDefinition(
+                sqlQuery));
+        
     }
 
     public void Get()
