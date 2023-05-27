@@ -19,8 +19,38 @@ public class OrderHandlerController : ControllerBase
     [HttpPost("create-order")]
     public async Task<CreateOrderResponse> CreateOrder(CreateOrderRequest request)
     {
-        await _orderHandlerService.AddNewOrders();
-        return new CreateOrderResponse(1);
+        var dishes = request.Dishes.Select(x => x.DishId).ToArray();
+        // Сначала проверить блюда по айди, узнать их цену
+        var dishesById = await _orderHandlerService.GetDishesById(dishes);
+
+        if (dishesById.Length != dishes.Length)
+        {
+            // Исключение
+            throw new NotImplementedException();
+        }
+        
+        var orderId = await _orderHandlerService.AddNewOrder(new OrderEntityV1(
+            0,
+            request.UserId,
+            "В ожидании",
+            request.SpecialRequests,
+            DateTimeOffset.Now,
+            DateTimeOffset.Now));
+
+        int index = 0;
+        var dishesQuantity = request.Dishes.Select(x => x.Quantity).ToArray();
+
+        var orderDishes = dishesById.Select(x => new OrderDishEntityV1(
+            0,
+            orderId,
+            x.Id,
+            dishesQuantity[index++],
+            x.Price)).ToArray();
+        
+        // Затем узнать айди, который получил заказ и после этого добавить их в order_dish
+        await _orderHandlerService.AddNewOrderDishes(orderDishes);
+
+        return new CreateOrderResponse(orderId);
     }
     
     [HttpPost("get-order-status")]

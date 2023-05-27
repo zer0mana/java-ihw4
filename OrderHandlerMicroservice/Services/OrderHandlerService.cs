@@ -34,11 +34,26 @@ public class OrderHandlerService
         return result;
     }
     
-    public async Task<int[]> AddNewOrders()
+    public async Task<int> AddNewOrder(OrderEntityV1 entity)
     {
         var result = await _orderRepository.Add(
-            new[] { new OrderEntityV1(1, 1, "lol", "max", DateTime.Now, DateTime.Now) }, 
+            new[] { entity }, 
             CancellationToken.None);
+
+        return result.First();
+    }
+
+    public async Task<DishEntityV1[]> GetDishesById(int[] dishesIds)
+    {
+        var entities = await _dishRepository.GetDishesById(dishesIds);
+
+        return entities;
+    }
+
+    public async Task<int[]> AddNewOrderDishes(OrderDishEntityV1[] entityV1)
+    {
+        var result = await _orderDishRepository.Add(
+            entityV1);
 
         return result;
     }
@@ -49,8 +64,8 @@ public class OrderHandlerService
 
     public DishEntityV1[] GetAllDishes()
     {
-        var dishes = _dishRepository.GetAll();
+        var dishes = _dishRepository.GetAllDishes();
 
-        return dishes;
+        return dishes.Result;
     }
 }

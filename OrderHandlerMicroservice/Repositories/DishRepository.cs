@@ -31,9 +31,54 @@ returning id;
         return result.ToArray();
     }
 
-    public DishEntityV1[] GetAll()
+    public async Task<DishEntityV1[]> GetDishesById(
+        int[] dishesIds)
     {
-        throw new NotImplementedException();
+        string sqlQuery = @"
+select id
+     , name
+     , description
+     , price
+     , quantity
+from dish
+where id = any(@DishesIds)
+order by id
+";
+        
+        var sqlQueryParams = new
+        {
+            DishesIds = dishesIds
+        };
+
+        await using var connection = await GetAndOpenConnection();
+        var dishes = await connection.QueryAsync<DishEntityV1>(
+            new CommandDefinition(
+                sqlQuery,
+                sqlQueryParams));
+        
+        return dishes
+            .ToArray();
+    }
+    
+    public async Task<DishEntityV1[]> GetAllDishes()
+    {
+        string sqlQuery = @"
+select id
+     , name
+     , description
+     , price
+     , quantity
+from dish
+order by id
+";
+
+        await using var connection = await GetAndOpenConnection();
+        var dishes = await connection.QueryAsync<DishEntityV1>(
+            new CommandDefinition(
+                sqlQuery));
+        
+        return dishes
+            .ToArray();
     }
 
     public void Remove()

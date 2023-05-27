@@ -1,5 +1,10 @@
 ﻿namespace OrderHandlerMicroservice.Requests;
 
+public record CreateOrderRequestItem(
+    int DishId,
+    int Quantity);
+
 public record CreateOrderRequest(
-    int[] DishIds,
+    int UserId,
+    CreateOrderRequestItem[] Dishes,
     string SpecialRequests);

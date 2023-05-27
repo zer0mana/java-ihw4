@@ -9,8 +9,8 @@ public class AddOrderDishType : Migration {
         const string sql = @"
 DO $$
     BEGIN
-        IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'dish_order_v1') THEN
-            CREATE TYPE dish_order_v1 as
+        IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'order_dish_v1') THEN
+            CREATE TYPE order_dish_v1 as
             (
                   id           int
                 , order_id     int
@@ -30,7 +30,7 @@ $$;";
         const string sql = @"
 DO $$
     BEGIN
-        DROP TYPE IF EXISTS dish_order_v1;
+        DROP TYPE IF EXISTS order_dish_v1;
     END
 $$;";
 
