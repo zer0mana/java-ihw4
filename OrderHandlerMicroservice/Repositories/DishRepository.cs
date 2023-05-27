@@ -31,7 +31,7 @@ returning id;
         return result.ToArray();
     }
 
-    public void Get()
+    public DishEntityV1[] GetAll()
     {
         throw new NotImplementedException();
     }

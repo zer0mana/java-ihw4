@@ -25,10 +25,10 @@ public class OrderHandlerService
         throw new NotImplementedException();
     }
 
-    public async Task<int[]> AddNewDish()
+    public async Task<int[]> AddNewDishes(DishEntityV1[] entityV1)
     {
         var result = await _dishRepository.Add(
-            new[] { new DishEntityV1(1, "max", "lol", 100, 1) },
+            entityV1,
             CancellationToken.None);
 
         return result;
@@ -42,9 +42,15 @@ public class OrderHandlerService
 
         return result;
     }
-    
     public void UpdateDish()
     {
         
+    }
+
+    public DishEntityV1[] GetAllDishes()
+    {
+        var dishes = _dishRepository.GetAll();
+
+        return dishes;
     }
 }

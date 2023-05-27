@@ -1,3 +1,5 @@
 ﻿namespace OrderHandlerMicroservice.Responses;
 
-public record GetOrderStatusResponse();
+public record GetOrderStatusResponse(
+    int Id,
+    string OrderStatus);

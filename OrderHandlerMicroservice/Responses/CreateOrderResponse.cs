@@ -1,3 +1,4 @@
 ﻿namespace OrderHandlerMicroservice.Responses;
 
-public record CreateOrderResponse();
+public record CreateOrderResponse(
+    int OrderId);
