@@ -1,9 +1,7 @@
-using Interfaces;
-using OrderHandlerMicroservice.Repositories;
+using FluentValidation.AspNetCore;
+using OrderHandlerMicroservice.MiddleWares;
 using OrderHandlerMicroservice.Repositories.Extensions;
-using OrderHandlerMicroservice.Repositories.Interfaces;
 using OrderHandlerMicroservice.Services;
-using Shed.CoreKit.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +15,12 @@ builder.Services.AddScoped<OrderHandlerService>();
 builder.Services.AddInfrastructure();
 builder.Services.AddRepositories();
 
+builder.Services.AddFluentValidation(conf =>
+{
+    conf.RegisterValidatorsFromAssembly(typeof(Program).Assembly);
+    conf.AutomaticValidationEnabled = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,7 +30,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -34,5 +37,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MigrateUp();
+
+app.UseMiddleware<ErrorMiddleware>();
 
 app.Run();

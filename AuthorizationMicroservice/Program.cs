@@ -1,10 +1,10 @@
 using System.Text;
+using AuthorizationMicroservice.MiddleWares;
 using AuthorizationMicroservice.Options;
 using AuthorizationMicroservice.Repositories.Extensions;
 using AuthorizationMicroservice.Services;
-using Interfaces;
+using FluentValidation.AspNetCore;
 using Microsoft.IdentityModel.Tokens;
-using Shed.CoreKit.WebApi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +32,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddFluentValidation(conf =>
+{
+    conf.RegisterValidatorsFromAssembly(typeof(Program).Assembly);
+    conf.AutomaticValidationEnabled = true;
+});
+
 builder.Services.AddInfrastructure();
 builder.Services.AddRepositories();
 var app = builder.Build();
@@ -50,5 +56,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MigrateUp();
+
+app.UseMiddleware<ErrorMiddleware>();
 
 app.Run();
