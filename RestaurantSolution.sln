@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizationMicroservice",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderHandlerMicroservice", "OrderHandlerMicroservice\OrderHandlerMicroservice.csproj", "{4489AA0B-70BC-4180-B7AF-B1D309F23094}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interfaces", "Interfaces\Interfaces.csproj", "{9230824B-EC0E-4762-B0EE-8236753D9692}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{4489AA0B-70BC-4180-B7AF-B1D309F23094}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4489AA0B-70BC-4180-B7AF-B1D309F23094}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4489AA0B-70BC-4180-B7AF-B1D309F23094}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9230824B-EC0E-4762-B0EE-8236753D9692}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9230824B-EC0E-4762-B0EE-8236753D9692}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9230824B-EC0E-4762-B0EE-8236753D9692}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9230824B-EC0E-4762-B0EE-8236753D9692}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

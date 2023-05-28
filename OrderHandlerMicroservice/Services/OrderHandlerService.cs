@@ -1,32 +1,39 @@
-﻿using OrderHandlerMicroservice.Repositories;
+﻿using AuthorizationMicroservice.Repositories.Entities;
+using OrderHandlerMicroservice.Repositories;
 using OrderHandlerMicroservice.Repositories.Entities;
 using OrderHandlerMicroservice.Repositories.Migrations;
+using Interfaces;
 
 namespace OrderHandlerMicroservice.Services;
 
-public class OrderHandlerService
+public class OrderHandlerService : IOrderHandlerService
 {
     private readonly DishRepository _dishRepository;
     private readonly OrderRepository _orderRepository;
     private readonly OrderDishRepository _orderDishRepository;
-    
+    private readonly AuthorizationRepository _authorizationRepository;
+
     private bool _updaterActive;
 
     public OrderHandlerService(
         DishRepository dishRepository,
         OrderRepository orderRepository,
-        OrderDishRepository orderDishRepository)
+        OrderDishRepository orderDishRepository,
+        AuthorizationRepository authorizationRepository)
     {
         _dishRepository = dishRepository;
         _orderRepository = orderRepository;
         _orderDishRepository = orderDishRepository;
+        _authorizationRepository = authorizationRepository;
     }
 
-    public void Add()
+    public async Task<SessionEntityV1> CheckToken(string token)
     {
-        throw new NotImplementedException();
-    }
+        var session = await _authorizationRepository.GetSessionByToken(token);
 
+        return session;
+    }
+    
     public async Task<int[]> AddNewDishes(DishEntityV1[] entityV1)
     {
         var result = await _dishRepository.Add(

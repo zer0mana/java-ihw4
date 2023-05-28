@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OrderHandlerMicroservice.Repositories;
 using OrderHandlerMicroservice.Repositories.Entities;
 using OrderHandlerMicroservice.Requests;
 using OrderHandlerMicroservice.Responses;
@@ -11,13 +12,17 @@ namespace OrderHandlerMicroservice.Controllers;
 public class OrderHandlerController : ControllerBase
 {
     private readonly OrderHandlerService _orderHandlerService;
-    public OrderHandlerController(OrderHandlerService orderHandlerService)
+    private readonly AuthorizationRepository _authorizationRepository;
+    public OrderHandlerController(
+        OrderHandlerService orderHandlerService,
+        AuthorizationRepository authorizationRepository)
     {
         _orderHandlerService = orderHandlerService;
+        _authorizationRepository = authorizationRepository;
     }
 
     [HttpPost("create-order")]
-    public async Task<CreateOrderResponse> CreateOrder(CreateOrderRequest request)
+    public async Task<IActionResult> CreateOrder(CreateOrderRequest request)
     {
         var dishes = request.Dishes.Select(x => x.DishId).ToArray();
         // Сначала проверить блюда по айди, узнать их цену
@@ -26,7 +31,7 @@ public class OrderHandlerController : ControllerBase
         if (dishesById.Length != dishes.Length)
         {
             // Исключение
-            throw new NotImplementedException();
+            return StatusCode(StatusCodes.Status400BadRequest, "Dish with this id not exist.");
         }
         
         var orderId = await _orderHandlerService.AddNewOrder(new OrderEntityV1(
@@ -50,20 +55,20 @@ public class OrderHandlerController : ControllerBase
         // Затем узнать айди, который получил заказ и после этого добавить их в order_dish
         await _orderHandlerService.AddNewOrderDishes(orderDishes);
 
-        return new CreateOrderResponse(orderId);
+        return StatusCode(StatusCodes.Status200OK, $"Order created with id {orderId}.");
     }
     
     [HttpPost("get-order-status")]
-    public GetOrderStatusResponse GetOrderStatus(GetOrderStatusRequest request)
+    public IActionResult GetOrderStatus(GetOrderStatusRequest request)
     {
         var order = _orderHandlerService.GetOrderStatus(request.OrderId).Result;
 
         if (order == null)
         {
-            throw new NotImplementedException();
+            return StatusCode(StatusCodes.Status400BadRequest, "Order with this id not exist.");
         }
         
-        return new GetOrderStatusResponse(order.Id, order.Status);
+        return StatusCode(StatusCodes.Status200OK, $"Order status: {order.Status}");
     }
     
     [HttpPost("get-menu")]
@@ -79,8 +84,22 @@ public class OrderHandlerController : ControllerBase
     }
     
     [HttpPost("add-dishes")]
-    public async Task<AddDishesResponse> AddDishes(AddDishesRequest request)
+    public async Task<IActionResult> AddDishes(AddDishesRequest request)
     {
+        var session = await _authorizationRepository.GetSessionByToken(request.Token);
+
+        if (session == null)
+        {
+            return StatusCode(StatusCodes.Status400BadRequest, "Bad token.");
+        }
+
+        var user = await _authorizationRepository.GetUserById(session.UserId);
+
+        if (user.Role != "manager")
+        {
+            return StatusCode(StatusCodes.Status403Forbidden, "Not enough rights.");
+        }
+        
         var ids = await _orderHandlerService.AddNewDishes(
             request.Dishes.Select(x
                 => new DishEntityV1(
@@ -91,9 +110,12 @@ public class OrderHandlerController : ControllerBase
                     x.Quantity))
                 .ToArray());
 
-        var response = new AddDishesResponse(ids);
-
-        return response;
+        var stringIds = "";
+        foreach (var item in ids)
+        {
+            stringIds += item + " ";
+        }
+        return StatusCode(StatusCodes.Status200OK, $"Dishes adds with ids {stringIds}.");;
     }
     
     [HttpPost("update-dish")]

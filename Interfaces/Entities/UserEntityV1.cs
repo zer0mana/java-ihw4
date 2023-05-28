@@ -1,12 +1,10 @@
-﻿namespace AuthorizationMicroservice.Repositories.Entities;
-
+namespace AuthorizationMicroservice.Repositories.Entities;
 public record UserEntityV1
 {
     public UserEntityV1()
     {
         
     }
-
     public UserEntityV1(
         int id,
         string username,
@@ -24,7 +22,6 @@ public record UserEntityV1
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
     }
-
     public int Id { get; set; }
     public string Username { get; set; }
     public string Email { get; set; }

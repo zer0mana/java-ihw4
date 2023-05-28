@@ -1,5 +1,4 @@
-﻿namespace AuthorizationMicroservice.Repositories.Entities;
-
+namespace AuthorizationMicroservice.Repositories.Entities;
 public record SessionEntityV1
 {
     public SessionEntityV1()
@@ -17,7 +16,6 @@ public record SessionEntityV1
         SessionToken = sessionToken;
         ExpiresAt = expiresAt;
     }
-
     public int Id { get; set; }
     public int UserId { get; set; }
     public string SessionToken { get; set; }

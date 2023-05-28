@@ -1,3 +1,4 @@
+using Interfaces;
 using OrderHandlerMicroservice.Repositories;
 using OrderHandlerMicroservice.Repositories.Extensions;
 using OrderHandlerMicroservice.Repositories.Interfaces;
@@ -11,12 +12,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<OrderHandlerService>();
+builder.Services.AddScoped<OrderHandlerService>();
 
 builder.Services.AddInfrastructure();
 builder.Services.AddRepositories();
-
-// builder.Services.AddWebApiEndpoints(new WebApiEndpoint<IProductCatalog>(new System.Uri("http://localhost:5001")));
 
 var app = builder.Build();
 
@@ -26,6 +25,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.UseHttpsRedirection();
 

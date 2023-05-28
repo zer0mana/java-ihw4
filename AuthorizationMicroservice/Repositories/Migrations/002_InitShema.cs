@@ -11,7 +11,7 @@ public class InitShema : Migration {
             .WithColumn("username").AsString().NotNullable().Unique()
             .WithColumn("email").AsString().NotNullable().Unique()
             .WithColumn("password_hash").AsString().NotNullable()
-            .WithColumn("Role").AsString().NotNullable()
+            .WithColumn("role").AsString().NotNullable()
             .WithColumn("created_at").AsDateTimeOffset().NotNullable()
             .WithColumn("updated_at").AsDateTimeOffset().NotNullable();
 

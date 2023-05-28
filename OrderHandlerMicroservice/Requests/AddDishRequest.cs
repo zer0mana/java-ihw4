@@ -6,4 +6,5 @@ public record AddDishesRequestItem(
     decimal Price,
     int Quantity);
 public record AddDishesRequest(
+    string Token,
     AddDishesRequestItem[] Dishes);

@@ -6,7 +6,7 @@ namespace OrderHandlerMicroservice.Repositories;
 
 public class BaseRepository : IBaseRepository
 {
-    private readonly string ConnectionString =
+    protected string ConnectionString =
         "User ID=postgres;Password=123456;Host=localhost;Port=15432;Database=order-handler;Pooling=true;";
 
     public async Task<NpgsqlConnection> GetAndOpenConnection()

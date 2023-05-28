@@ -10,6 +10,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<DishRepository>();
         services.AddScoped<OrderRepository>();
         services.AddScoped<OrderDishRepository>();
+        services.AddScoped<AuthorizationRepository>();
 
         return services;
     }
