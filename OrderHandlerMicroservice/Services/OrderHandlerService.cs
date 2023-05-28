@@ -44,6 +44,13 @@ public class OrderHandlerService
 
         return result.First();
     }
+    
+    public async Task<OrderEntityV1> GetOrderStatus(int id)
+    {
+        var result = await _orderRepository.GetOrderById(id);
+
+        return result;
+    }
 
     public async Task<DishEntityV1[]> GetDishesById(int[] dishesIds)
     {
@@ -59,14 +66,10 @@ public class OrderHandlerService
 
         return result;
     }
-    public void UpdateDish()
-    {
-        
-    }
 
     public DishEntityV1[] GetAllDishes()
     {
-        var dishes = _dishRepository.GetAllDishes();
+        var dishes = _dishRepository.GetAllActiveDishes();
 
         return dishes.Result;
     }
@@ -118,11 +121,7 @@ public class OrderHandlerService
                     newDishes.Add(dish);
                 }
             }
-
-            foreach (var item in newDishes)
-            {
-                Console.WriteLine(item.Quantity);
-            }
+            
             // Если не хватает блюд, то отменяю заказ
             if (!flag)
             {

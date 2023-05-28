@@ -60,7 +60,7 @@ order by id
             .ToArray();
     }
     
-    public async Task<DishEntityV1[]> GetAllDishes()
+    public async Task<DishEntityV1[]> GetAllActiveDishes()
     {
         string sqlQuery = @"
 select id
@@ -69,6 +69,7 @@ select id
      , price
      , quantity
 from dish
+where quantity <> 0
 order by id
 ";
 

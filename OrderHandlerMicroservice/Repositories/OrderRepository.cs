@@ -31,6 +31,33 @@ returning id;
         return result.ToArray();
     }
 
+    public async Task<OrderEntityV1> GetOrderById(int id)
+    {
+        string sqlQuery = @"
+select id, 
+       user_id, 
+       status, 
+       special_requests, 
+       created_at, 
+       updated_at
+from ""order""
+where id = @Id
+";
+        
+        var sqlQueryParams = new
+        {
+            @Id = id
+        };
+
+        await using var connection = await GetAndOpenConnection();
+        var orders = await connection.QueryAsync<OrderEntityV1>(
+            new CommandDefinition(
+                sqlQuery,
+                sqlQueryParams));
+        
+        return orders.FirstOrDefault();
+    }
+    
     public async Task<OrderEntityV1[]> GetWaitingOrders(int count)
     {
         string sqlQuery = @"

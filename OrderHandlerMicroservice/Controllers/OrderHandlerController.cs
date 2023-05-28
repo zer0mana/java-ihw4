@@ -56,7 +56,14 @@ public class OrderHandlerController : ControllerBase
     [HttpPost("get-order-status")]
     public GetOrderStatusResponse GetOrderStatus(GetOrderStatusRequest request)
     {
-        throw new NotImplementedException();
+        var order = _orderHandlerService.GetOrderStatus(request.OrderId).Result;
+
+        if (order == null)
+        {
+            throw new NotImplementedException();
+        }
+        
+        return new GetOrderStatusResponse(order.Id, order.Status);
     }
     
     [HttpPost("get-menu")]
