@@ -24,6 +24,13 @@ public class OrderHandlerController : ControllerBase
     [HttpPost("create-order")]
     public async Task<IActionResult> CreateOrder(CreateOrderRequest request)
     {
+        var session = await _authorizationRepository.GetSessionByToken(request.Token);
+
+        if (session == null)
+        {
+            return StatusCode(StatusCodes.Status400BadRequest, "Bad token.");
+        }
+
         var dishes = request.Dishes.Select(x => x.DishId).ToArray();
         // Сначала проверить блюда по айди, узнать их цену
         var dishesById = await _orderHandlerService.GetDishesById(dishes);
@@ -36,7 +43,7 @@ public class OrderHandlerController : ControllerBase
         
         var orderId = await _orderHandlerService.AddNewOrder(new OrderEntityV1(
             0,
-            request.UserId,
+            session.UserId,
             "В ожидании",
             request.SpecialRequests,
             DateTimeOffset.Now,
@@ -117,20 +124,10 @@ public class OrderHandlerController : ControllerBase
         }
         return StatusCode(StatusCodes.Status200OK, $"Dishes adds with ids {stringIds}.");;
     }
-    
-    [HttpPost("update-dish")]
-    public UpdateDishResponse UpdateDish(UpdateDishRequest request)
-    {
-        throw new NotImplementedException();
-    }
-    
+
     [HttpPost("run-updater")]
     public void UpdateDish()
     {
         _orderHandlerService.UpdaterRun();
     }
-
-    // Обработка заказов - хостед сервис ?
-    
-    // Проверять наличие блюд
 }

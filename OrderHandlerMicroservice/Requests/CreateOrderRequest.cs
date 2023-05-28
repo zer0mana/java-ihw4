@@ -5,6 +5,6 @@ public record CreateOrderRequestItem(
     int Quantity);
 
 public record CreateOrderRequest(
-    int UserId,
+    string Token,
     CreateOrderRequestItem[] Dishes,
     string SpecialRequests);

@@ -7,8 +7,8 @@ public class CreateOrderRequestValidator : AbstractValidator<CreateOrderRequest>
 {
     public CreateOrderRequestValidator()
     {
-        RuleFor(x => x.UserId)
-            .GreaterThan(0);
+        RuleFor(x => x.Token)
+            .NotNull();
         RuleFor(x => x.SpecialRequests)
             .MaximumLength(100);
         RuleFor(x => x.Dishes)

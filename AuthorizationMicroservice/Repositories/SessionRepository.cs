@@ -73,4 +73,27 @@ returning id;
         
         return result.ToArray();
     }
+
+    public async Task<int> UpdateSession(int id, DateTimeOffset offset)
+    {
+        string sqlQuery = @"
+update ""session""
+set expires_at = @offset
+where id = @Id
+";
+        
+        var sqlQueryParams = new
+        {
+            @Offset = offset,
+            @Id = id
+        };
+
+        await using var connection = await GetAndOpenConnection();
+        var orders = await connection.QueryAsync<SessionEntityV1>(
+            new CommandDefinition(
+                sqlQuery,
+                sqlQueryParams));
+        
+        return id;
+    }
 }

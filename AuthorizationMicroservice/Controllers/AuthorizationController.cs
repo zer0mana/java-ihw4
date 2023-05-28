@@ -95,7 +95,31 @@ public class AuthorizationController : ControllerBase
                 signature,
                 DateTimeOffset.Now));
         }
+        else
+        {
+            await _authorizationService.UpdateSession(session.Id, DateTimeOffset.Now);
+        }
         
         return StatusCode(StatusCodes.Status200OK, $"You successfully login, your token: {signature}");
+    }
+
+    [HttpPost]
+    [Route("user-info")]
+    public async Task<IActionResult> GetUserById(GetUserByTokenRequest request)
+    {
+        var session = await _authorizationService.GetSessionByToken(request.Token);
+
+        if (session == null)
+        {
+            return StatusCode(StatusCodes.Status400BadRequest, "Bad token");
+        }
+
+        var user = await _authorizationService.GetUserById(session.UserId);
+
+        return StatusCode(StatusCodes.Status200OK, $"user info:" +
+                                                   $"\n\tid: {user.Id}" +
+                                                   $"\n\tusername: {user.Username}" +
+                                                   $"\n\temail: {user.Email}" +
+                                                   $"\n\trole: {user.Role}");
     }
 }

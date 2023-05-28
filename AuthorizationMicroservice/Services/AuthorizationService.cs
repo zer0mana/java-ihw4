@@ -75,4 +75,11 @@ public class AuthorizationService : IAuthorizationService
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
+    public async Task<int> UpdateSession(int id, DateTimeOffset offset)
+    {
+        var res = await _sessionRepository.UpdateSession(id, offset);
+
+        return res;
+    }
 }
