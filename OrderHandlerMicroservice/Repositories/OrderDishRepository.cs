@@ -28,9 +28,32 @@ returning id;
         return result.ToArray();
     }
 
-    public void Get()
+    public async Task<OrderDishEntityV1[]> GetByOrderId(int orderId)
     {
-        throw new NotImplementedException();
+        string sqlQuery = @"
+select id, 
+       order_id, 
+       dish_id, 
+       quantity, 
+       price
+from order_dish
+where order_id = @OrderId
+order by id
+";
+        
+        var sqlQueryParams = new
+        {
+            OrderId = orderId
+        };
+
+        await using var connection = await GetAndOpenConnection();
+        var dishes = await connection.QueryAsync<OrderDishEntityV1>(
+            new CommandDefinition(
+                sqlQuery,
+                sqlQueryParams));
+        
+        return dishes
+            .ToArray();
     }
 
     public void Remove()

@@ -94,6 +94,12 @@ public class OrderHandlerController : ControllerBase
     {
         throw new NotImplementedException();
     }
+    
+    [HttpPost("run-updater")]
+    public void UpdateDish()
+    {
+        _orderHandlerService.UpdaterRun();
+    }
 
     // Обработка заказов - хостед сервис ?
     

@@ -31,13 +31,55 @@ returning id;
         return result.ToArray();
     }
 
-    public void Get()
+    public async Task<OrderEntityV1[]> GetWaitingOrders(int count)
     {
-        throw new NotImplementedException();
+        string sqlQuery = @"
+select id, 
+       user_id, 
+       status, 
+       special_requests, 
+       created_at, 
+       updated_at
+from ""order""
+where status = @Status
+order by created_at desc
+limit @Limit
+";
+        
+        var sqlQueryParams = new
+        {
+            @Status = "В ожидании",
+            @Limit = count
+        };
+
+        await using var connection = await GetAndOpenConnection();
+        var orders = await connection.QueryAsync<OrderEntityV1>(
+            new CommandDefinition(
+                sqlQuery,
+                sqlQueryParams));
+        
+        return orders.ToArray();
     }
 
-    public void Remove()
+    public async void UpdateOrder(int orderId, string orderStatus)
     {
-        throw new NotImplementedException();
+        string sqlQuery = @"
+update ""order""
+set status = @Status, updated_at = @At
+where id = @OrderId
+";
+        
+        var sqlQueryParams = new
+        {
+            @Status = orderStatus,
+            @At = DateTimeOffset.Now,
+            @OrderId = orderId
+        };
+
+        await using var connection = await GetAndOpenConnection();
+        var orders = await connection.QueryAsync<OrderEntityV1>(
+            new CommandDefinition(
+                sqlQuery,
+                sqlQueryParams));
     }
 }

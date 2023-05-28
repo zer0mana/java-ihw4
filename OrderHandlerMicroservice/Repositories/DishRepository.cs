@@ -81,8 +81,27 @@ order by id
             .ToArray();
     }
 
-    public void Remove()
+    public async void Update(DishEntityV1[] entityV1)
     {
-        throw new NotImplementedException();
+        const string sqlQuery = @"
+with table_1 (id, name, description, price, quantity) as
+(select id, name, description, price, quantity
+  from UNNEST(@Dishes))
+update dish
+set quantity = table_1.quantity
+from table_1
+where dish.id = table_1.id
+";
+        
+        var sqlQueryParams = new
+        {
+            Dishes = entityV1
+        };
+        
+        await using var connection = await GetAndOpenConnection();
+        var result = await connection.QueryAsync<int>(
+            new CommandDefinition(
+                sqlQuery,
+                sqlQueryParams));
     }
 }
